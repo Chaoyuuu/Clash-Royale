@@ -34,36 +34,36 @@ public class Adventurer extends WalkingUnit {
 
     @Override
     protected void onSetupFSM(FSM<State> fsm) {
-        fsm.setInitialState(DIE);
+        fsm.setInitialState(ATTACK);
 
         // TODO use Sequence/Gallery instead of a lot of image paths
         fsm.put(MOVING,
                 outerState(10,
-                        innerState(this, "adventurer/adventurer-run-00.png", moveAct()),
-                        innerState(this, "adventurer/adventurer-run-01.png", moveAct()),
-                        innerState(this, "adventurer/adventurer-run-02.png", moveAct()),
-                        innerState(this, "adventurer/adventurer-run-03.png", moveAct()),
-                        innerState(this, "adventurer/adventurer-run-04.png", moveAct()),
-                        innerState(this, "adventurer/adventurer-run-05.png", moveAct())));
+                        innerState(this, "adventurer/run/0.png", moveAct()),
+                        innerState(this, "adventurer/run/1.png", moveAct()),
+                        innerState(this, "adventurer/run/2.png", moveAct()),
+                        innerState(this, "adventurer/run/3.png", moveAct()),
+                        innerState(this, "adventurer/run/4.png", moveAct()),
+                        innerState(this, "adventurer/run/5.png", moveAct())));
 
         fsm.put(ATTACK,
                 outerState(10,
-                        innerState(this, "adventurer/adventurer-attack2-00.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-attack2-01.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-attack2-02.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-attack2-03.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-attack2-04.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-attack2-05.png", attackAct())));
+                        innerState(this, "adventurer/attack2/adventurer-attack2-00.png", attackAct()),
+                        innerState(this, "adventurer/attack2/adventurer-attack2-01.png", attackAct()),
+                        innerState(this, "adventurer/attack2/adventurer-attack2-02.png", attackAct()),
+                        innerState(this, "adventurer/attack2/adventurer-attack2-03.png", attackAct()),
+                        innerState(this, "adventurer/attack2/adventurer-attack2-04.png", attackAct()),
+                        innerState(this, "adventurer/attack2/adventurer-attack2-05.png", attackAct())));
 
         fsm.put(DIE,
                 outerState(10,
-                        innerState(this, "adventurer/adventurer-die-00.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-die-01.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-die-02.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-die-03.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-die-04.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-die-05.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-die-06.png", attackAct())));
+                        innerState(this, "adventurer/die/adventurer-die-00.png", attackAct()),
+                        innerState(this, "adventurer/die/adventurer-die-01.png", attackAct()),
+                        innerState(this, "adventurer/die/adventurer-die-02.png", attackAct()),
+                        innerState(this, "adventurer/die/adventurer-die-03.png", attackAct()),
+                        innerState(this, "adventurer/die/adventurer-die-04.png", attackAct()),
+                        innerState(this, "adventurer/die/adventurer-die-05.png", attackAct()),
+                        innerState(this, "adventurer/die/adventurer-die-06.png", attackAct())));
 
     }
 

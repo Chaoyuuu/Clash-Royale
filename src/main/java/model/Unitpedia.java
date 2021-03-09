@@ -1,6 +1,7 @@
 package model;
 
 import model.sprites.unit.Adventurer;
+import model.sprites.unit.AdventurerIdle;
 import model.sprites.unit.Unit;
 
 import java.util.HashMap;
@@ -18,6 +19,8 @@ public class Unitpedia {
 
     private void setup() {
         units.put(UnitName.ADVENTURER_U, new Adventurer());
+        units.put(UnitName.ADVENTURER_IDLE, new AdventurerIdle());
+
     }
 
     public Unit getUnit(UnitName name) {
@@ -25,7 +28,7 @@ public class Unitpedia {
     }
 
     public enum UnitName {
-        ADVENTURER_U, DRAGON_U
+        ADVENTURER_U, DRAGON_U, ADVENTURER_IDLE
     }
 
     public static void main(String[] args) {

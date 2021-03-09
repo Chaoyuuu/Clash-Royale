@@ -5,6 +5,7 @@ import java.util.Map;
 
 import static model.Card.createCard;
 import static model.CardDeck.CardName.*;
+import static model.Unitpedia.UnitName.ADVENTURER_IDLE;
 import static model.Unitpedia.UnitName.ADVENTURER_U;
 
 /**
@@ -19,9 +20,9 @@ public class CardDeck {
 
     private void setupCard() {
         cards.put(ADVENTURER_C, createCard(ADVENTURER_U, "w.png"));
-        cards.put(ADVENTURER_A, createCard(ADVENTURER_U, "c.png"));
-        cards.put(ADVENTURER_B, createCard(ADVENTURER_U, "g.png"));
-        cards.put(ADVENTURER_D, createCard(ADVENTURER_U, "e.png"));
+        cards.put(ADVENTURER_A, createCard(ADVENTURER_U, "w.png"));
+        cards.put(ADVENTURER_B, createCard(ADVENTURER_IDLE, "g.png"));
+        cards.put(ADVENTURER_D, createCard(ADVENTURER_IDLE, "g.png"));
     }
 
     public Card getCard(CardName name) {
@@ -33,10 +34,6 @@ public class CardDeck {
         ADVENTURER_A,
         ADVENTURER_B,
         ADVENTURER_D,
-        ADVENTURER_E,
-        ADVENTURER_F,
-        ADVENTURER_G,
-        ADVENTURER_H
     }
 
 }

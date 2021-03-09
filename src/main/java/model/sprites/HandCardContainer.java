@@ -11,7 +11,7 @@ import java.util.List;
 
 import static fsm.InnerState.innerState;
 import static fsm.OuterState.outerState;
-import static model.sprites.State.STATIC;
+import static model.sprites.State.*;
 
 /**
  * @author chaoyulee chaoyu2330@gmail.com
@@ -28,7 +28,7 @@ public class HandCardContainer extends Sprite {
     }
 
     private void setupCards() {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 2; i++) {
             cards.add(new CardContainer(20 + 130 * i + body.x, 20 + body.y, dealCard()));
         }
     }
@@ -37,12 +37,8 @@ public class HandCardContainer extends Sprite {
         return handCard.getCardInRandom();
     }
 
-    public boolean isSelected() {
-        return selectedCard != null;
-    }
-
     public void summonUnit(Point location) {
-        if (isSelected()) {
+        if (selectedCard != null) {
             arena.summonUnitOnArena(selectedCard.summon(), location);
             selectedCard = null;
         }
@@ -58,13 +54,13 @@ public class HandCardContainer extends Sprite {
     }
 
     private void updateSelectedCard(CardContainer card) {
-        if (selectedCard == card) {
+        if (card.getState() == SELECTED) {
+            if (selectedCard != null) {
+                selectedCard.unselect();
+            }
+            selectedCard = card;
+        } else if (card.getState() == SELETABLE) {
             selectedCard = null;
-        } else if (selectedCard == null) {
-            selectedCard = card;
-        } else {
-            selectedCard.unselect();
-            selectedCard = card;
         }
     }
 
@@ -73,7 +69,7 @@ public class HandCardContainer extends Sprite {
     public void update() {
         cards.forEach(c -> {
             c.update();
-            if (c.getState() == State.EMPTY) {
+            if (c.getState() == REMOVE) {
                 c.getCard(dealCard());
             }
         });

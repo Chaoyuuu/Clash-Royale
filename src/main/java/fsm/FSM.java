@@ -14,7 +14,7 @@ import static fsm.InnerState.innerState;
 import static fsm.OuterState.outerState;
 import static fsm.action.Move.moveAct;
 import static model.sprites.State.*;
-import static model.sprites.State.GAME;
+import static model.sprites.State.SELETABLE;
 
 /**
  * @author chaoyulee chaoyu2330@gmail.com
@@ -82,6 +82,10 @@ public class FSM<T> extends HashMap<T, OuterState> implements Cloneable{
         return transitionTable.get(state1).remove(event, state2);
     }
 
+    public void replaceState(T state, OuterState value) {
+        this.replace(state, value);
+    }
+
     public T getState() {
         return state;
     }
@@ -121,7 +125,7 @@ public class FSM<T> extends HashMap<T, OuterState> implements Cloneable{
                         innerState(sprite, "adventurer/adventurer-run-00.png", moveAct()),
                         innerState(sprite, "adventurer/adventurer-run-01.png", moveAct())));
 
-        fsm.addTransition(MOVING, EOS, GAME);
+        fsm.addTransition(MOVING, EOS, SELETABLE);
 
         OuterState thisOuter = fsm.getOuterState();
 
