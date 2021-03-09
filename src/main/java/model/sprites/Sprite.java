@@ -1,11 +1,13 @@
 package model.sprites;
 
+import exception.CloneException;
 import fsm.FSM;
+import model.OnMouseClickListener;
 import model.arena.Arena;
 
 import java.awt.*;
 
-public abstract class Sprite {
+public abstract class Sprite implements OnMouseClickListener, Cloneable {
     protected Rectangle body;
     protected FSM<State> fsm = new FSM<>();
     protected Arena arena;
@@ -28,6 +30,10 @@ public abstract class Sprite {
 
     protected abstract void onSetupFSM(FSM<State> fsm);
 
+    protected State getState() {
+        return fsm.getState();
+    }
+
     public void getArena(Arena arena) {
         this.arena = arena;
     }
@@ -36,11 +42,23 @@ public abstract class Sprite {
         return body;
     }
 
-    public Point getPoint() {
+    protected Point getPoint() {
         return body.getLocation();
     }
 
     public void setPoint(Point point) {
         body.setLocation(point);
+    }
+
+    public Sprite clone() {
+        try {
+            Sprite copy = (Sprite) super.clone();
+            copy.fsm = this.fsm.clone(copy);
+            copy.body = new Rectangle(-1, -1, body.width, body.height);
+            return copy;
+        } catch (CloneNotSupportedException e) {
+            throw new CloneException(e);
+        }
+
     }
 }

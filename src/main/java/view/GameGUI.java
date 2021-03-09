@@ -1,6 +1,6 @@
 package view;
 
-import model.players.HandCards;
+import model.arena.Arena;
 import model.sprites.Sprite;
 
 import javax.swing.*;
@@ -15,30 +15,33 @@ import java.util.Collections;
  */
 public class GameGUI extends JFrame implements View {
     private Canvas canvas;
+    private final Arena arena;
     private Collection<Sprite> sprites = Collections.emptySet();
     private static final int CANVAS_WEIGHT = 1000;
     private static final int CANVAS_HEIGHT = 800;
-    private final HandCards handCards;
 
-    public GameGUI(HandCards handCards) {
-        this.handCards = handCards;
+    public GameGUI(Arena arena) {
+        this.arena = arena;
     }
 
     public void launch() {
-        canvas = new Canvas();
-        setContentPane(canvas);
-        setSize(CANVAS_WEIGHT, CANVAS_HEIGHT);
-        setLocation(200, 200);
-        setVisible(true);
-
+        setupCanvas();
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 System.out.println(e.getPoint());
-                handCards.selectCard(e.getPoint());
+                arena.click(e.getPoint());
             }
         });
+    }
+
+    private void setupCanvas() {
+        canvas = new Canvas();
+        setContentPane(canvas);
+        setSize(CANVAS_WEIGHT, CANVAS_HEIGHT);
+        setLocation(200, 200);
+        setVisible(true);
     }
 
     @Override

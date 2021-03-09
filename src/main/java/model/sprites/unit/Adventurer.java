@@ -1,7 +1,7 @@
 package model.sprites.unit;
 
+import exception.CloneException;
 import fsm.FSM;
-import fsm.action.Attack;
 import model.players.PlayerID;
 import model.sprites.Sprite;
 import model.sprites.State;
@@ -23,7 +23,7 @@ public class Adventurer extends WalkingUnit {
 
 
     public Adventurer() {
-        super(new Rectangle(new Point(100, 100), new Dimension(100, 100)),
+        super(new Rectangle(0, 0, 100, 100),
                 100, 100, 100, 5,
                 PlayerID.PLAYER_A, Collections.emptyList());
     }
@@ -36,6 +36,8 @@ public class Adventurer extends WalkingUnit {
     @Override
     protected void onSetupFSM(FSM<State> fsm) {
         fsm.setInitialState(DIE);
+
+        // TODO use Sequence/Gallery instead of a lot of image paths
         fsm.put(MOVING,
                 outerState(10,
                         innerState(this, "adventurer/adventurer-run-00.png", moveAct()),
@@ -80,6 +82,11 @@ public class Adventurer extends WalkingUnit {
 
     @Override
     public void attack() {
+
+    }
+
+    @Override
+    public void onClick(Point location) {
 
     }
 }

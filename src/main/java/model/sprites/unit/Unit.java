@@ -35,4 +35,13 @@ public abstract class Unit extends Sprite {
 
     public abstract void attack();
 
+    public Unit clone() {
+        Unit copy = (Unit) super.clone();
+        copy.angle = this.angle.clone();
+        return copy;
+    }
+
+    public PlayerID getPlayerID() {
+        return playerID;
+    }
 }
