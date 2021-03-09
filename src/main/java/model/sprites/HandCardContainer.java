@@ -27,7 +27,7 @@ public class HandCardContainer extends Sprite {
     }
 
     private void setupCards() {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 2; i++) {
             cards.add(new CardContainer(20 + 130 * i + body.x, 20 + body.y, dealCard()));
         }
     }

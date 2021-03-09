@@ -48,8 +48,7 @@ public class Adventurer extends WalkingUnit {
         Gallery idleGallery = new SequenceGallery("adventurer/idle2", new Range(0, 4));
         Gallery dieGallery = new SequenceGallery("adventurer/die", new Range(0, 7));
 
-        fsm.put(MOVING,
-                outerState(10, this, runGallery.getImages(), moveAct()));
+        fsm.put(MOVING,outerState(10, this, runGallery.getImages(), moveAct()));
 
         fsm.put(ATTACK,
                 outerState(10,
@@ -60,11 +59,8 @@ public class Adventurer extends WalkingUnit {
                         innerState(this, attackGallery.getImageByPic(4), defaultAct()),
                         innerState(this, attackGallery.getImageByPic(5), defaultAct())));
 
-        fsm.put(IDLE,
-                outerState(10, this, idleGallery.getImages()));
-
-        fsm.put(DIE,
-                outerState(10, this, dieGallery.getImages()));
+        fsm.put(IDLE, outerState(10, this, idleGallery.getImages()));
+        fsm.put(DIE, outerState(10, this, dieGallery.getImages()));
 
         fsm.addTransition(IDLE, ATTACK_EVENT, ATTACK);
         fsm.addTransition(ATTACK, EOS, IDLE);

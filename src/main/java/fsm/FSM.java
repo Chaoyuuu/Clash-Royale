@@ -16,6 +16,7 @@ import java.util.Optional;
 import static fsm.OuterState.outerState;
 import static fsm.action.Move.moveAct;
 import static model.sprites.State.*;
+import static model.sprites.State.SELETABLE;
 
 /**
  * @author chaoyulee chaoyu2330@gmail.com
