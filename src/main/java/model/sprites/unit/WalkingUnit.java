@@ -15,7 +15,6 @@ public abstract class WalkingUnit extends Unit {
         this.obstacles = obstacles;
     }
 
-
     @Override
     public void move() {
         System.out.println("Move");
