@@ -1,6 +1,5 @@
 package model.sprites.unit;
 
-import exception.CloneException;
 import fsm.FSM;
 import model.players.PlayerID;
 import model.sprites.Sprite;

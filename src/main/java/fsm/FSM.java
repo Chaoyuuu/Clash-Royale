@@ -32,7 +32,6 @@ public class FSM<T> extends HashMap<T, OuterState> implements Cloneable{
         copy.replaceAll((t, os) -> os.clone(sprite));
         copy.setInitialState(this.initialState);
         return copy;
-//        copy.outerState = this.outerState.clone(sprite);
     }
 
     public void update() {
