@@ -64,7 +64,6 @@ public class Adventurer extends WalkingUnit {
 
         fsm.addTransition(IDLE, ATTACK_EVENT, ATTACK);
         fsm.addTransition(ATTACK, EOS, IDLE);
-
     }
 
     @Override
