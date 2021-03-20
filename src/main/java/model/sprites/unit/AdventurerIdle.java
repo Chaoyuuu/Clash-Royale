@@ -1,7 +1,6 @@
 package model.sprites.unit;
 
 import fsm.FSM;
-import fsm.action.Attack;
 import galleries.Gallery;
 import galleries.Range;
 import galleries.SequenceGallery;
@@ -13,12 +12,8 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static fsm.InnerState.innerState;
 import static fsm.OuterState.outerState;
-import static fsm.action.Attack.attackAct;
-import static fsm.action.DefaultAction.defaultAct;
-import static fsm.action.Move.moveAct;
-import static model.sprites.State.*;
+import static model.sprites.State.IDLE;
 
 /**
  * @author chaoyulee chaoyu2330@gmail.com
@@ -42,14 +37,8 @@ public class AdventurerIdle extends WalkingUnit {
         Gallery idleGallery = new SequenceGallery("adventurer/idle2", new Range(0, 4));
 
         fsm.setInitialState(IDLE);
-
-        // TODO use Sequence/Gallery instead of a lot of image paths
         fsm.put(IDLE,
-                outerState(10,
-                        innerState(this, idleGallery.getImageByPic(0)),
-                        innerState(this, idleGallery.getImageByPic(1)),
-                        innerState(this, idleGallery.getImageByPic(2)),
-                        innerState(this, idleGallery.getImageByPic(3))));
+                outerState(10, this, idleGallery.getImages()));
     }
 
     @Override

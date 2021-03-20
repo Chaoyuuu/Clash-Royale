@@ -37,6 +37,10 @@ public class InnerState {
         return new InnerState(sprite, image, Audio.MULT, new Action[]{defaultAct()});
     }
 
+    public static InnerState innerState(Sprite sprite, Image image, Action... actions) {
+        return new InnerState(sprite, image, Audio.MULT, actions);
+    }
+
     public static InnerState innerState(Sprite sprite, Image image) {
         return new InnerState(sprite, image, Audio.MULT, new Action[]{defaultAct()});
     }

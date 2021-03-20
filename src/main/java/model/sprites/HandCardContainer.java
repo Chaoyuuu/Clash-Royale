@@ -2,7 +2,6 @@ package model.sprites;
 
 import fsm.FSM;
 import model.Card;
-import model.Unitpedia;
 import model.players.HandCard;
 
 import java.awt.*;
@@ -28,7 +27,7 @@ public class HandCardContainer extends Sprite {
     }
 
     private void setupCards() {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             cards.add(new CardContainer(20 + 130 * i + body.x, 20 + body.y, dealCard()));
         }
     }
@@ -46,11 +45,12 @@ public class HandCardContainer extends Sprite {
 
     @Override
     public void onClick(Point location) {
-        cards.forEach( c -> {
-                    if (c.getBody().contains(location)) {
-                        c.onClick(location);
-                        updateSelectedCard(c);
-                    }});
+        cards.forEach(c -> {
+            if (c.getBody().contains(location)) {
+                c.onClick(location);
+                updateSelectedCard(c);
+            }
+        });
     }
 
     private void updateSelectedCard(CardContainer card) {

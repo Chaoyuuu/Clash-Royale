@@ -10,9 +10,9 @@ import model.sprites.Sprite;
 import model.sprites.unit.Unit;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,9 +20,11 @@ import java.util.stream.Collectors;
  * @author chaoyulee chaoyu2330@gmail.com
  */
 public class Arena {
-    private List<Sprite> sprites = new LinkedList<>();
+    private List<Sprite> sprites = new ArrayList<>();
+    private List<Unit> units = new ArrayList<>();
+    private List<Sprite> obstacles = new ArrayList<>();
     private HandCardContainer handCard;
-    private Unitpedia unitpedia;
+    private final Unitpedia unitpedia;
 
     public Arena(Unitpedia unitpedia) {
         this.unitpedia = unitpedia;
@@ -56,9 +58,24 @@ public class Arena {
                 .collect(Collectors.toList());
     }
 
+    public void attack(Unit attackUnit) {
+        Rectangle attackRange = attackUnit.getAttackRange();
+        attackRange.setLocation(attackUnit.getPoint());
+        units.stream()
+                .filter(s -> s.getBody().intersects(attackUnit.getAttackRange()))
+                .forEach(s -> s.damageHP(attackUnit.getAP()));
+    }
+
     public void addSprite(Sprite sprite) {
         sprites.add(sprite);
         sprite.getArena(this);
+        if (sprite instanceof Unit) {
+            addUnit((Unit) sprite);
+        }
+    }
+
+    private void addUnit(Unit unit) {
+        units.add(unit);
     }
 
     public void summonUnitOnArena(Unitpedia.UnitName name, Point location) {

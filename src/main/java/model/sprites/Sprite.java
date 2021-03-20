@@ -42,7 +42,7 @@ public abstract class Sprite implements OnMouseClickListener, Cloneable {
         return body;
     }
 
-    protected Point getPoint() {
+    public Point getPoint() {
         return body.getLocation();
     }
 
