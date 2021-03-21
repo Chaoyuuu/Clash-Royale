@@ -8,6 +8,7 @@ import view.GameGUI;
 import java.awt.*;
 
 import static model.CardDeck.CardName.*;
+import static model.Unitpedia.UnitName.ADVENTURER_U;
 
 /**
  * @author chaoyulee chaoyu2330@gmail.com
@@ -17,14 +18,16 @@ public class Main {
         Arena arena = new Arena(new Unitpedia());
         arena.setHandCard(setupHandCards());
         test(arena);
-        run(arena);
+        startGame(arena);
     }
 
     public static void test(Arena arena) {
-            arena.summonUnitOnArena(Unitpedia.UnitName.ADVENTURER_IDLE, new Point(300, 300));
+        arena.summonUnitOnArena(ADVENTURER_U, new Point(300, 300));
+        arena.summonUnitOnArena(ADVENTURER_U, new Point(200, 300));
+
     }
 
-    public static void run(Arena arena) {
+    public static void startGame(Arena arena) {
         GameGUI gameGUI = new GameGUI(arena);
         gameGUI.launch();
         GameLoop gameLoop = new GameLoop(gameGUI, arena);

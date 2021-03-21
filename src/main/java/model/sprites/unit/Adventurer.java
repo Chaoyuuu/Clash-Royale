@@ -11,13 +11,16 @@ import model.sprites.State;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
 
+import static fsm.FSM.EOS;
 import static fsm.InnerState.innerState;
 import static fsm.OuterState.outerState;
 import static fsm.action.Attack.attackAct;
 import static fsm.action.DefaultAction.defaultAct;
 import static fsm.action.Move.moveAct;
 import static model.sprites.State.*;
+import static model.sprites.unit.Adventurer.Event.ATTACK_EVENT;
 
 /**
  * @author chaoyulee chaoyu2330@gmail.com
@@ -38,10 +41,11 @@ public class Adventurer extends WalkingUnit {
 
     @Override
     protected void onSetupFSM(FSM<State> fsm) {
-        fsm.setInitialState(MOVING);
+        fsm.setInitialState(ATTACK);
 
         Gallery runGallery = new SequenceGallery("adventurer/run", new Range(0, 6));
         Gallery attackGallery = new SequenceGallery("adventurer/attack2", new Range(0, 6));
+        Gallery idleGallery = new SequenceGallery("adventurer/idle2", new Range(0, 4));
         Gallery dieGallery = new SequenceGallery("adventurer/die", new Range(0, 7));
 
         fsm.put(MOVING,
@@ -56,8 +60,15 @@ public class Adventurer extends WalkingUnit {
                         innerState(this, attackGallery.getImageByPic(4), defaultAct()),
                         innerState(this, attackGallery.getImageByPic(5), defaultAct())));
 
+        fsm.put(IDLE,
+                outerState(10, this, idleGallery.getImages()));
+
         fsm.put(DIE,
                 outerState(10, this, dieGallery.getImages()));
+
+        fsm.addTransition(IDLE, ATTACK_EVENT, ATTACK);
+        fsm.addTransition(ATTACK, EOS, IDLE);
+
     }
 
     @Override
@@ -82,6 +93,11 @@ public class Adventurer extends WalkingUnit {
 
     @Override
     public void onClick(Point location) {
+        Map<State, Map<Object, State>> map = fsm.getTransitionTable();
+        fsm.trigger(ATTACK_EVENT);
+    }
 
+    public enum Event {
+        ATTACK_EVENT
     }
 }

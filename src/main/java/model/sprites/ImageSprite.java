@@ -1,13 +1,15 @@
 package model.sprites;
 
 import fsm.FSM;
-import utils.ImageUtils;
+import galleries.Gallery;
+import galleries.Range;
+import galleries.SequenceGallery;
 
 import java.awt.*;
 
-import static fsm.InnerState.innerState;
 import static fsm.OuterState.outerState;
-import static model.sprites.State.STATIC;
+import static fsm.action.Move.moveAct;
+import static model.sprites.State.MOVING;
 
 /**
  * @author chaoyulee chaoyu2330@gmail.com
@@ -41,8 +43,9 @@ public class ImageSprite extends Sprite {
 
     @Override
     protected void onSetupFSM(FSM<State> fsm) {
-        fsm.setInitialState(STATIC);
-        fsm.put(STATIC,
-                outerState(100, innerState(this, "adventurer/adventurer-run-00.png")));
+        fsm.setInitialState(MOVING);
+        Gallery runGallery = new SequenceGallery("adventurer/run", new Range(0, 6));
+        fsm.put(MOVING,
+                outerState(10, this, runGallery.getImages(), moveAct()));
     }
 }
