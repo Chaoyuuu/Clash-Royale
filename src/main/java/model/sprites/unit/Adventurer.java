@@ -30,7 +30,7 @@ public class Adventurer extends WalkingUnit {
     public Adventurer() {
         super(new Rectangle(0, 0, 150, 100),
                 100, 100, 100, 5,
-                new Rectangle(32, 13, 21, 22),
+                new Rectangle(120, 15, 40, 70),
                 PlayerID.PLAYER_A, Collections.emptyList());
     }
 
@@ -41,7 +41,7 @@ public class Adventurer extends WalkingUnit {
 
     @Override
     protected void onSetupFSM(FSM<State> fsm) {
-        fsm.setInitialState(ATTACK);
+        fsm.setInitialState(IDLE);
 
         Gallery runGallery = new SequenceGallery("adventurer/run", new Range(0, 6));
         Gallery attackGallery = new SequenceGallery("adventurer/attack2", new Range(0, 6));
@@ -78,6 +78,7 @@ public class Adventurer extends WalkingUnit {
 
     @Override
     public void render(Graphics g) {
+        g.drawString(String.valueOf(this.HP), body.x, body.y - 50);
         fsm.update();
         Image image = fsm.getImage();
         g.drawImage(image, body.x, body.y, body.width, body.height, null);
@@ -85,10 +86,7 @@ public class Adventurer extends WalkingUnit {
 
     @Override
     public void attack() {
-        System.out.println("attack");
         arena.attack(this);
-        //attack range point(32, 13) range(21, 12)
-
     }
 
     @Override

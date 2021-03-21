@@ -59,10 +59,10 @@ public class Arena {
     }
 
     public void attack(Unit attackUnit) {
-        Rectangle attackRange = attackUnit.getAttackRange();
-        attackRange.setLocation(attackUnit.getPoint());
+        Rectangle attackRange = new Rectangle(attackUnit.getAttackRange());
+        attackRange.translate(attackUnit.getBody().x, attackUnit.getBody().y);
         units.stream()
-                .filter(s -> s.getBody().intersects(attackUnit.getAttackRange()))
+                .filter(s -> s.getBody().intersects(attackRange) && s != attackUnit)
                 .forEach(s -> s.damageHP(attackUnit.getAP()));
     }
 
