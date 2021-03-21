@@ -2,7 +2,6 @@ package model.sprites;
 
 import fsm.FSM;
 import model.Card;
-import model.Unitpedia;
 import model.players.HandCard;
 
 import java.awt.*;
@@ -11,7 +10,7 @@ import java.util.List;
 
 import static fsm.InnerState.innerState;
 import static fsm.OuterState.outerState;
-import static model.sprites.State.STATIC;
+import static model.sprites.State.*;
 
 /**
  * @author chaoyulee chaoyu2330@gmail.com
@@ -37,12 +36,8 @@ public class HandCardContainer extends Sprite {
         return handCard.getCardInRandom();
     }
 
-    public boolean isSelected() {
-        return selectedCard != null;
-    }
-
     public void summonUnit(Point location) {
-        if (isSelected()) {
+        if (selectedCard != null) {
             arena.summonUnitOnArena(selectedCard.summon(), location);
             selectedCard = null;
         }
@@ -50,21 +45,22 @@ public class HandCardContainer extends Sprite {
 
     @Override
     public void onClick(Point location) {
-        cards.forEach( c -> {
-                    if (c.getBody().contains(location)) {
-                        c.onClick(location);
-                        updateSelectedCard(c);
-                    }});
+        cards.forEach(c -> {
+            if (c.getBody().contains(location)) {
+                c.onClick(location);
+                updateSelectedCard(c);
+            }
+        });
     }
 
     private void updateSelectedCard(CardContainer card) {
-        if (selectedCard == card) {
+        if (card.getState() == SELECTED) {
+            if (selectedCard != null) {
+                selectedCard.unselect();
+            }
+            selectedCard = card;
+        } else if (card.getState() == SELETABLE) {
             selectedCard = null;
-        } else if (selectedCard == null) {
-            selectedCard = card;
-        } else {
-            selectedCard.unselect();
-            selectedCard = card;
         }
     }
 
@@ -73,7 +69,7 @@ public class HandCardContainer extends Sprite {
     public void update() {
         cards.forEach(c -> {
             c.update();
-            if (c.getState() == State.EMPTY) {
+            if (c.getState() == REMOVE) {
                 c.getCard(dealCard());
             }
         });

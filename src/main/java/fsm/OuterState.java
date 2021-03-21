@@ -1,10 +1,12 @@
 package fsm;
 
+import fsm.action.Action;
 import model.sprites.ImageSprite;
 import model.sprites.Sprite;
 import view.Audio;
 
 import java.awt.*;
+import java.util.List;
 
 import static fsm.InnerState.innerState;
 import static fsm.action.Move.moveAct;
@@ -23,6 +25,13 @@ public class OuterState {
     }
 
     public static OuterState outerState(int base, InnerState... innerStates) {
+        return new OuterState(base, innerStates);
+    }
+
+    public static OuterState outerState(int base, Sprite sprite, List<Image> images, Action... actions) {
+        InnerState[] innerStates = images.stream()
+                .map(image -> innerState(sprite, image, actions))
+                .toArray(InnerState[]::new);
         return new OuterState(base, innerStates);
     }
 

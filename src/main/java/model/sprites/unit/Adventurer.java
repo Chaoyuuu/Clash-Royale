@@ -1,6 +1,9 @@
 package model.sprites.unit;
 
 import fsm.FSM;
+import galleries.Gallery;
+import galleries.Range;
+import galleries.SequenceGallery;
 import model.players.PlayerID;
 import model.sprites.Sprite;
 import model.sprites.State;
@@ -8,22 +11,26 @@ import model.sprites.State;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
 
+import static fsm.FSM.EOS;
 import static fsm.InnerState.innerState;
 import static fsm.OuterState.outerState;
 import static fsm.action.Attack.attackAct;
+import static fsm.action.DefaultAction.defaultAct;
 import static fsm.action.Move.moveAct;
 import static model.sprites.State.*;
+import static model.sprites.unit.Adventurer.Event.ATTACK_EVENT;
 
 /**
  * @author chaoyulee chaoyu2330@gmail.com
  */
 public class Adventurer extends WalkingUnit {
 
-
     public Adventurer() {
-        super(new Rectangle(0, 0, 100, 100),
+        super(new Rectangle(0, 0, 150, 100),
                 100, 100, 100, 5,
+                new Rectangle(120, 15, 40, 70),
                 PlayerID.PLAYER_A, Collections.emptyList());
     }
 
@@ -34,36 +41,33 @@ public class Adventurer extends WalkingUnit {
 
     @Override
     protected void onSetupFSM(FSM<State> fsm) {
-        fsm.setInitialState(DIE);
+        fsm.setInitialState(IDLE);
 
-        // TODO use Sequence/Gallery instead of a lot of image paths
+        Gallery runGallery = new SequenceGallery("adventurer/run", new Range(0, 6));
+        Gallery attackGallery = new SequenceGallery("adventurer/attack2", new Range(0, 6));
+        Gallery idleGallery = new SequenceGallery("adventurer/idle2", new Range(0, 4));
+        Gallery dieGallery = new SequenceGallery("adventurer/die", new Range(0, 7));
+
         fsm.put(MOVING,
-                outerState(10,
-                        innerState(this, "adventurer/adventurer-run-00.png", moveAct()),
-                        innerState(this, "adventurer/adventurer-run-01.png", moveAct()),
-                        innerState(this, "adventurer/adventurer-run-02.png", moveAct()),
-                        innerState(this, "adventurer/adventurer-run-03.png", moveAct()),
-                        innerState(this, "adventurer/adventurer-run-04.png", moveAct()),
-                        innerState(this, "adventurer/adventurer-run-05.png", moveAct())));
+                outerState(10, this, runGallery.getImages(), moveAct()));
 
         fsm.put(ATTACK,
                 outerState(10,
-                        innerState(this, "adventurer/adventurer-attack2-00.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-attack2-01.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-attack2-02.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-attack2-03.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-attack2-04.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-attack2-05.png", attackAct())));
+                        innerState(this, attackGallery.getImageByPic(0), defaultAct()),
+                        innerState(this, attackGallery.getImageByPic(1), defaultAct()),
+                        innerState(this, attackGallery.getImageByPic(2), defaultAct()),
+                        innerState(this, attackGallery.getImageByPic(3), attackAct()),
+                        innerState(this, attackGallery.getImageByPic(4), defaultAct()),
+                        innerState(this, attackGallery.getImageByPic(5), defaultAct())));
+
+        fsm.put(IDLE,
+                outerState(10, this, idleGallery.getImages()));
 
         fsm.put(DIE,
-                outerState(10,
-                        innerState(this, "adventurer/adventurer-die-00.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-die-01.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-die-02.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-die-03.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-die-04.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-die-05.png", attackAct()),
-                        innerState(this, "adventurer/adventurer-die-06.png", attackAct())));
+                outerState(10, this, dieGallery.getImages()));
+
+        fsm.addTransition(IDLE, ATTACK_EVENT, ATTACK);
+        fsm.addTransition(ATTACK, EOS, IDLE);
 
     }
 
@@ -74,6 +78,7 @@ public class Adventurer extends WalkingUnit {
 
     @Override
     public void render(Graphics g) {
+        g.drawString(String.valueOf(this.HP), body.x, body.y - 50);
         fsm.update();
         Image image = fsm.getImage();
         g.drawImage(image, body.x, body.y, body.width, body.height, null);
@@ -81,11 +86,16 @@ public class Adventurer extends WalkingUnit {
 
     @Override
     public void attack() {
-
+        arena.attack(this);
     }
 
     @Override
     public void onClick(Point location) {
+        Map<State, Map<Object, State>> map = fsm.getTransitionTable();
+        fsm.trigger(ATTACK_EVENT);
+    }
 
+    public enum Event {
+        ATTACK_EVENT
     }
 }

@@ -32,6 +32,7 @@ public class CardContainer extends Sprite {
 
     public void getCard(Card card) {
         this.card = card;
+        updateFSM();
         fsm.trigger(GETCARD_EVENT);
     }
 
@@ -49,7 +50,7 @@ public class CardContainer extends Sprite {
             case SELECTED:
                 unselect();
                 break;
-            case GAME:
+            case SELETABLE:
                 select();
                 break;
         }
@@ -57,10 +58,15 @@ public class CardContainer extends Sprite {
 
     @Override
     public void update() {
-        if (getState() == SELECTED) {
+        State state = getState();
+        if (state == SELECTED) {
             color = Color.PINK;
-        } else {
+        } else if (state == WAITING) {
+            color = Color.LIGHT_GRAY;
+        } else if (state == SELETABLE){
             color = Color.WHITE;
+        } else {
+            color = Color.GRAY;
         }
     }
 
@@ -76,27 +82,32 @@ public class CardContainer extends Sprite {
 
     @Override
     protected void onSetupFSM(FSM<State> fsm) {
-        fsm.setInitialState(GAME);
+        fsm.setInitialState(SELETABLE);
     }
 
     private void setupFSM() {
         Image image = card.getImage();
         fsm.put(WAITING, outerState(100, innerState(this, image)));
 
-        fsm.put(GAME, outerState(100, innerState(this, image)));
+        fsm.put(SELETABLE, outerState(100, innerState(this, image)));
 
         fsm.put(SELECTED, outerState(100, innerState(this, image)));
 
         fsm.put(REMOVE, outerState(100, innerState(this, image)));
 
-        fsm.put(EMPTY, outerState(100, innerState(this, image)));
-
-        fsm.addTransition(WAITING, EOS, GAME);
-        fsm.addTransition(GAME, SELECT_EVENT, SELECTED);
-        fsm.addTransition(SELECTED, UNSELECT_EVENT, GAME);
+        fsm.addTransition(WAITING, EOS, SELETABLE);
+        fsm.addTransition(SELETABLE, SELECT_EVENT, SELECTED);
+        fsm.addTransition(SELECTED, UNSELECT_EVENT, SELETABLE);
         fsm.addTransition(SELECTED, SUMMON_EVENT, REMOVE);
-        fsm.addTransition(REMOVE, EOS, EMPTY);
-        fsm.addTransition(EMPTY, GETCARD_EVENT, WAITING);
+        fsm.addTransition(REMOVE, GETCARD_EVENT, WAITING);
+    }
+
+    private void updateFSM() {
+        Image image = card.getImage();
+        fsm.replaceState(WAITING, outerState(100, innerState(this, image)));
+        fsm.replaceState(SELETABLE, outerState(100, innerState(this, image)));
+        fsm.replaceState(SELECTED, outerState(100, innerState(this, image)));
+        fsm.replaceState(REMOVE, outerState(100, innerState(this, image)));
     }
 
     public enum Event {

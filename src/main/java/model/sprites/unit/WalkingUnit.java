@@ -15,6 +15,11 @@ public abstract class WalkingUnit extends Unit {
         this.obstacles = obstacles;
     }
 
+    public WalkingUnit(Rectangle body, int HP, int AP, int AD, int offset, Rectangle attackRange, PlayerID playerID, List<Sprite> obstacles) {
+        super(body, HP, AP, AD, attackRange, offset, playerID);
+        this.obstacles = obstacles;
+    }
+
     @Override
     public void move() {
         System.out.println("Move");

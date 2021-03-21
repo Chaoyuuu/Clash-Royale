@@ -5,6 +5,8 @@ import model.sprites.Sprite;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
@@ -32,6 +34,17 @@ public class GameGUI extends JFrame implements View {
                 super.mouseClicked(e);
                 System.out.println(e.getPoint());
                 arena.click(e.getPoint());
+            }
+        });
+
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                if (e.getKeyCode() == KeyEvent.VK_A) {
+                    System.out.println("attack");
+
+                }
             }
         });
     }
