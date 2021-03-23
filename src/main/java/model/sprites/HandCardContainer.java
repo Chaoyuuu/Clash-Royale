@@ -21,7 +21,8 @@ public class HandCardContainer extends Sprite {
     private CardContainer selectedCard;
 
     public HandCardContainer(int x, int y, HandCard handCard) {
-        super(new Rectangle(new Point(x, y), new Dimension(540, 170)));
+        super(new Rectangle(new Point(x, y), new Dimension(540, 170)),
+                new Rectangle(new Point(x, y), new Dimension(540, 170)));
         this.handCard = handCard;
         setupCards();
     }

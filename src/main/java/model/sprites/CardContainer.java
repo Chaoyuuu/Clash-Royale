@@ -20,7 +20,8 @@ public class CardContainer extends Sprite {
     private Color color = Color.white;
 
     public CardContainer(int x, int y, Card card) {
-        super(new Rectangle(new Point(x, y), new Dimension(100, 130)));
+        super(new Rectangle(new Point(x, y), new Dimension(100, 130)),
+                new Rectangle(new Point(x, y), new Dimension(100, 130)));
         this.card = card;
         setupFSM();
     }

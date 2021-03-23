@@ -9,36 +9,30 @@ public abstract class Unit extends Sprite {
     protected int HP;
     protected int AP;
     protected int AD;
-    protected Rectangle attackRange;
     protected int offset;
     protected Angle angle;
     protected PlayerID playerID;
+    protected Rectangle attackRange;
+    protected Point attackOffset;
 
-    public Unit(Rectangle body, int HP, int AP, int AD, Rectangle attackRange, int offset, PlayerID playerID) {
-        super(body);
+    public Unit(Rectangle imageRange, Rectangle body, Rectangle attackRange,
+                int HP, int AP, int AD, int offset, PlayerID id) {
+        super(imageRange, body);
         this.HP = HP;
         this.AP = AP;
         this.AD = AD;
         this.attackRange = attackRange;
+        this.attackOffset = new Point(attackRange.getLocation());
         this.offset = offset;
-        setAngle(playerID);
-    }
-
-    public Unit(Rectangle body, int HP, int AP, int AD, int offset, PlayerID playerID) {
-        super(body);
-        this.HP = HP;
-        this.AP = AP;
-        this.AD = AD;
-        this.attackRange = new Rectangle(0, 0);
-        this.offset = offset;
-        setAngle(playerID);
+        this.playerID = id;
+        setAngle(id);
     }
 
     private void setAngle(PlayerID id) {
         if (id == PlayerID.PLAYER_A) {
-            this.angle = new Angle(90);
+            this.angle = new Angle(180);
         } else {
-            this.angle = new Angle(270);
+            this.angle = new Angle(0);
         }
     }
 
@@ -50,8 +44,20 @@ public abstract class Unit extends Sprite {
         return AP;
     }
 
+    public int getHP() {
+        return HP;
+    }
+
     public void damageHP(int damageHP) {
         HP -= damageHP;
+    }
+
+    public PlayerID getPlayerID() {
+        return playerID;
+    }
+
+    public void setPlayerID(PlayerID playerID) {
+        this.playerID = playerID;
     }
 
     public abstract void move();
@@ -61,10 +67,8 @@ public abstract class Unit extends Sprite {
     public Unit clone() {
         Unit copy = (Unit) super.clone();
         copy.angle = this.angle.clone();
+        copy.attackRange = new Rectangle(this.attackRange);
+        copy.attackOffset = this.attackOffset;
         return copy;
-    }
-
-    public PlayerID getPlayerID() {
-        return playerID;
     }
 }

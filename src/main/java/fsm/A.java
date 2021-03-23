@@ -8,7 +8,7 @@ public class A implements Cloneable {
     private C c;
 
 
-        public A clone() {
+    public A clone() {
         try {
             A clone_A = (A) super.clone();
             clone_A.bs = bs.clone();

@@ -1,7 +1,6 @@
 package model.sprites.unit;
 
 import exception.CloneException;
-import model.sprites.Sprite;
 
 import static java.lang.Math.*;
 
@@ -9,6 +8,13 @@ import static java.lang.Math.*;
  * @author chaoyulee chaoyu2330@gmail.com
  */
 public class Angle implements Cloneable {
+    /**
+     * (right) angle: 0
+     * (left) angle: 180
+     * (top) angle: 90
+     * (tail) angle: 270
+     */
+
     private int angle;
 
     public Angle(int angle) {
@@ -16,18 +22,19 @@ public class Angle implements Cloneable {
     }
 
     public void setAngle(int angle) {
-        this.angle = angle % 360;
+        int a = angle % 360;
+        this.angle = a;
     }
 
     public int getAngle() {
         return angle;
     }
 
-    public void translate(int offset, Sprite sprite) {
-        double radians = toRadians(angle - 90);  // turn the axis for -90,
-        int offsetX = (int)(cos(radians) * offset);
-        int offsetY = (int)(sin(radians) * offset * -1);
-        sprite.getBody().translate(offsetX, offsetY);
+    public void moveForward(int offset, Unit unit) {
+        double radians = toRadians(angle);
+        int offsetX = (int) (cos(radians) * offset);
+        int offsetY = (int) (sin(radians) * offset);
+        unit.getImageRange().translate(offsetX, offsetY);
     }
 
     public Angle clone() {
