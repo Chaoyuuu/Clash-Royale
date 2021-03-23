@@ -22,7 +22,7 @@ public class Main {
     }
 
     public static void test(Arena arena) {
-        arena.summonUnitOnArena(ADVENTURER_U, new Point(300, 300));
+        arena.summonUnitOnArena(ADVENTURER_U, new Point(150, 300));
         arena.summonUnitOnArena(ADVENTURER_U, new Point(200, 300));
 
     }

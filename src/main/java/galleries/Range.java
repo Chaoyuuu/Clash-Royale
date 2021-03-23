@@ -9,8 +9,8 @@ import java.util.Objects;
 
 
 public class Range {
-    private int start;
-    private int end;
+    private final int start;
+    private final int end;
 
     public Range(int start, int end) {
         this.start = start;
