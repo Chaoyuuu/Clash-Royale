@@ -9,6 +9,7 @@ public abstract class Unit extends Sprite {
     protected int HP;
     protected int AP;
     protected int AD;
+    protected int EP;
     protected int offset;
     protected Angle angle;
     protected PlayerID playerID;
@@ -16,11 +17,12 @@ public abstract class Unit extends Sprite {
     protected Point attackOffset;
 
     public Unit(Rectangle imageRange, Rectangle body, Rectangle attackRange,
-                int HP, int AP, int AD, int offset, PlayerID id) {
+                int HP, int AP, int AD, int EP, int offset, PlayerID id) {
         super(imageRange, body);
         this.HP = HP;
         this.AP = AP;
         this.AD = AD;
+        this.EP = EP;
         this.attackRange = attackRange;
         this.attackOffset = new Point(attackRange.getLocation());
         this.offset = offset;
@@ -46,6 +48,10 @@ public abstract class Unit extends Sprite {
 
     public int getHP() {
         return HP;
+    }
+
+    public int getEP() {
+        return EP;
     }
 
     public void damageHP(int damageHP) {

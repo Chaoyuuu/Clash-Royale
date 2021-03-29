@@ -25,7 +25,6 @@ public class Arena {
     private final List<Unit> units = new ArrayList<>();
     private final List<Sprite> obstacles = new ArrayList<>();
     private HandCardContainer handCard;
-    private ElixirBar elixirBar;
     private Player player;
     private final Unitpedia unitpedia;
 
@@ -49,6 +48,7 @@ public class Arena {
                 .filter(s -> s.getBody().contains(point))
                 .findAny()
                 .ifPresentOrElse(s -> s.onClick(point), () -> handCard.summonUnit(point));
+                //TODO: get the Unit type by card and Summon(clone) the unit, that is summon is not the handcardContainer method.
     }
 
     public Collection<Sprite> getSpritesByRange(Range range) {
@@ -85,6 +85,7 @@ public class Arena {
         Unit unit = unitpedia.getUnit(name);
         unit.setLocation(location);
         addSprite(unit);
+        player.getElixir().costElixir(unit.getEP());
     }
 
     public void removeSprite(Sprite sprite) {

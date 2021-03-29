@@ -21,14 +21,9 @@ public class ElixirBar extends Sprite {
         this.elixir = elixir;
     }
 
-    // TODO: get the elixir from the player directly
-    public Elixir getElixir() {
-        return elixir;
-    }
-
     @Override
     public void onClick(Point location) {
-        // nothing to do in current version
+        // nothing to do in the current version
     }
 
     @Override
@@ -38,10 +33,11 @@ public class ElixirBar extends Sprite {
 
     @Override
     public void render(Graphics g) {
+        int elixirValue = elixir.getElixir();
         g.setColor(Color.WHITE);
         g.drawRect(body.x, body.y, body.width, body.height);
-
-        g.fillRect(body.x, body.y, elixir.getElixir() * 50, body.height);
+        g.fillRect(body.x, body.y,  elixirValue * 50, body.height);
+        g.drawString(String.valueOf(elixirValue), body.x, body.y - 5);
     }
 
     @Override
