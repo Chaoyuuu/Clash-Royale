@@ -22,8 +22,7 @@ public class Angle implements Cloneable {
     }
 
     public void setAngle(int angle) {
-        int a = angle % 360;
-        this.angle = a;
+        this.angle = angle % 360;
     }
 
     public int getAngle() {

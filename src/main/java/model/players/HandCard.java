@@ -15,7 +15,7 @@ import static model.CardDeck.CardName.*;
  * @author chaoyulee chaoyu2330@gmail.com
  */
 public class HandCard {
-    private List<CardName> cards = new ArrayList<>();
+    private final List<CardName> cards = new ArrayList<>();
     private final CardDeck cardDeck;
     private final Random random = new Random();
     private int SIZE = 4;
