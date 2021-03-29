@@ -8,12 +8,16 @@ import model.arena.Arena;
 import java.awt.*;
 
 public abstract class Sprite implements OnMouseClickListener, Cloneable {
+    protected Rectangle imageRange;
+    protected Point bodyOffset;
     protected Rectangle body;
     protected FSM<State> fsm = new FSM<>();
     protected Arena arena;
 
-    public Sprite(Rectangle body) {
+    public Sprite(Rectangle imageRange, Rectangle body) {
+        this.imageRange = imageRange;
         this.body = body;
+        this.bodyOffset = new Point(body.getLocation());
         onSetupFSM(fsm);
         validateFSM();
     }
@@ -42,23 +46,29 @@ public abstract class Sprite implements OnMouseClickListener, Cloneable {
         return body;
     }
 
+    public Rectangle getImageRange() {
+        return imageRange;
+    }
+
     public Point getPoint() {
         return body.getLocation();
     }
 
-    public void setPoint(Point point) {
-        body.setLocation(point);
+    public void setLocation(Point point) {
+        body.setLocation(point.x - body.width / 2, point.y - body.height / 2 - 15);
+        imageRange.setLocation(body.x - bodyOffset.x, body.y - bodyOffset.y);
     }
 
     public Sprite clone() {
         try {
             Sprite copy = (Sprite) super.clone();
             copy.fsm = this.fsm.clone(copy);
-            copy.body = new Rectangle(-1, -1, body.width, body.height);
+            copy.imageRange = new Rectangle(-1, -1, imageRange.width, imageRange.height);
+            copy.body = new Rectangle(body);
+            copy.bodyOffset = bodyOffset;
             return copy;
         } catch (CloneNotSupportedException e) {
             throw new CloneException(e);
         }
-
     }
 }

@@ -59,10 +59,8 @@ public class Arena {
     }
 
     public void attack(Unit attackUnit) {
-        Rectangle attackRange = new Rectangle(attackUnit.getAttackRange());
-        attackRange.translate(attackUnit.getBody().x, attackUnit.getBody().y);
         units.stream()
-                .filter(s -> s.getBody().intersects(attackRange) && s != attackUnit)
+                .filter(s -> s.getBody().intersects(attackUnit.getAttackRange()) && s != attackUnit)
                 .forEach(s -> s.damageHP(attackUnit.getAP()));
     }
 
@@ -79,9 +77,9 @@ public class Arena {
     }
 
     public void summonUnitOnArena(Unitpedia.UnitName name, Point location) {
-        Sprite sprite = unitpedia.getUnit(name);
-        sprite.setPoint(location);
-        addSprite(sprite);
+        Unit unit = unitpedia.getUnit(name);
+        unit.setLocation(location);
+        addSprite(unit);
     }
 
     public void removeSprite(Sprite sprite) {

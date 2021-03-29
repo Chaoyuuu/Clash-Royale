@@ -17,12 +17,13 @@ import static model.sprites.State.MOVING;
 public class ImageSprite extends Sprite {
 
     public ImageSprite() {
-        super(new Rectangle(0, 0, 50, 50));
+        super(new Rectangle(0, 0, 50, 50),
+                new Rectangle(0, 0, 50, 50));
     }
 
     @Override
-    public void setPoint(Point point) {
-        super.setPoint(point);
+    public void setLocation(Point point) {
+        super.setLocation(point);
     }
 
     @Override
