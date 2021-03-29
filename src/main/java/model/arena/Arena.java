@@ -3,8 +3,9 @@ package model.arena;
 
 import commons.Range;
 import model.Unitpedia;
-import model.players.HandCard;
+import model.players.Player;
 import model.players.PlayerID;
+import model.sprites.ElixirBar;
 import model.sprites.HandCardContainer;
 import model.sprites.Sprite;
 import model.sprites.unit.Unit;
@@ -20,18 +21,22 @@ import java.util.stream.Collectors;
  * @author chaoyulee chaoyu2330@gmail.com
  */
 public class Arena {
-    private List<Sprite> sprites = new ArrayList<>();
-    private List<Unit> units = new ArrayList<>();
-    private List<Sprite> obstacles = new ArrayList<>();
+    private final List<Sprite> sprites = new ArrayList<>();
+    private final List<Unit> units = new ArrayList<>();
+    private final List<Sprite> obstacles = new ArrayList<>();
     private HandCardContainer handCard;
+    private ElixirBar elixirBar;
+    private Player player;
     private final Unitpedia unitpedia;
 
     public Arena(Unitpedia unitpedia) {
         this.unitpedia = unitpedia;
     }
 
-    public void setHandCard(HandCard handCard) {
-        this.handCard = new HandCardContainer(460, 600, handCard);
+    public void setPlayer(Player player) {
+        this.player = player;
+        this.handCard = new HandCardContainer(460, 600, player.getHandCard());
+        addSprite(new ElixirBar(460, 580, player.getElixir()));
         addSprite(this.handCard);
     }
 

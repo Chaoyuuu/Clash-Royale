@@ -2,7 +2,9 @@ import gameloop.GameLoop;
 import model.CardDeck;
 import model.Unitpedia;
 import model.arena.Arena;
+import model.players.Elixir;
 import model.players.HandCard;
+import model.players.Player;
 import view.GameGUI;
 
 import java.awt.*;
@@ -16,7 +18,7 @@ import static model.Unitpedia.UnitName.ADVENTURER_U;
 public class Main {
     public static void main(String[] args) {
         Arena arena = new Arena(new Unitpedia());
-        arena.setHandCard(setupHandCards());
+        arena.setPlayer(setupPlayer());
         test(arena);
         startGame(arena);
     }
@@ -34,15 +36,17 @@ public class Main {
         gameLoop.start();
     }
 
-    public static HandCard setupHandCards() {
+    public static Player setupPlayer() {
         CardDeck cardDeck = new CardDeck();
         HandCard handCard = new HandCard(cardDeck);
+        Elixir elixir = new Elixir(10, 100);
+        Player player = new Player(elixir, handCard);
 
-        handCard.addCards(ADVENTURER_A);
-        handCard.addCards(ADVENTURER_B);
-        handCard.addCards(ADVENTURER_C);
-        handCard.addCards(ADVENTURER_D);
+        player.chooseCard(ADVENTURER_A);
+        player.chooseCard(ADVENTURER_B);
+        player.chooseCard(ADVENTURER_C);
+        player.chooseCard(ADVENTURER_D);
 
-        return handCard;
+        return player;
     }
 }
