@@ -3,8 +3,9 @@ package model.arena;
 
 import commons.Range;
 import model.Unitpedia;
-import model.players.HandCard;
+import model.players.Player;
 import model.players.PlayerID;
+import model.sprites.ElixirBar;
 import model.sprites.HandCardContainer;
 import model.sprites.Sprite;
 import model.sprites.unit.Unit;
@@ -20,18 +21,21 @@ import java.util.stream.Collectors;
  * @author chaoyulee chaoyu2330@gmail.com
  */
 public class Arena {
-    private List<Sprite> sprites = new ArrayList<>();
-    private List<Unit> units = new ArrayList<>();
-    private List<Sprite> obstacles = new ArrayList<>();
+    private final List<Sprite> sprites = new ArrayList<>();
+    private final List<Unit> units = new ArrayList<>();
+    private final List<Sprite> obstacles = new ArrayList<>();
     private HandCardContainer handCard;
+    private Player player;
     private final Unitpedia unitpedia;
 
     public Arena(Unitpedia unitpedia) {
         this.unitpedia = unitpedia;
     }
 
-    public void setHandCard(HandCard handCard) {
-        this.handCard = new HandCardContainer(460, 600, handCard);
+    public void setPlayer(Player player) {
+        this.player = player;
+        this.handCard = new HandCardContainer(460, 600, player.getHandCard());
+        addSprite(new ElixirBar(460, 580, player.getElixir()));
         addSprite(this.handCard);
     }
 
@@ -44,6 +48,7 @@ public class Arena {
                 .filter(s -> s.getBody().contains(point))
                 .findAny()
                 .ifPresentOrElse(s -> s.onClick(point), () -> handCard.summonUnit(point));
+                //TODO: get the Unit type by card and Summon(clone) the unit, that is summon is not the handcardContainer method.
     }
 
     public Collection<Sprite> getSpritesByRange(Range range) {
@@ -80,6 +85,7 @@ public class Arena {
         Unit unit = unitpedia.getUnit(name);
         unit.setLocation(location);
         addSprite(unit);
+        player.getElixir().costElixir(unit.getEP());
     }
 
     public void removeSprite(Sprite sprite) {

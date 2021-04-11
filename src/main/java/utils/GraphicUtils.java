@@ -11,6 +11,7 @@ import static model.players.PlayerID.PLAYER_B;
  */
 public class GraphicUtils {
 
+    //TODO: rename to spriteGraphicUtil
     public static void drawImage(Image image, Unit unit, Graphics g) {
         Rectangle range = unit.getImageRange();
         if (unit.getPlayerID() == PLAYER_B) {

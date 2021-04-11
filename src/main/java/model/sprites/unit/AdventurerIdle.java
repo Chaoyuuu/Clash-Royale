@@ -22,7 +22,7 @@ public class AdventurerIdle extends WalkingUnit {
         super(new Rectangle(0, 0, 100, 80),
                 new Rectangle(25, 15, 45, 65),
                 new Rectangle(60, 10, 40, 70),
-                100, 100, 100, 5, PlayerID.PLAYER_A,
+                100, 100, 100, 3, 5, PlayerID.PLAYER_A,
                 Collections.emptyList());
     }
 
